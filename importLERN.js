@@ -96,7 +96,7 @@ function parseOne(e,r,b){
             var feature = UTM;
             feature.geometry = wgs84.UTMtoLL(UTM);
             feature.geometry.coordinates = feature.geometry.coordinates.reverse();
-	    var uniqueStr = feature.properties.title+feature.geometry.coordinates[0]+feature.geometry.coordinates[0];
+	    var uniqueStr = feature.properties.date+feature.properties.title+feature.geometry.coordinates[0]+feature.geometry.coordinates[0];
 	    if (!uniqueObj[uniqueStr]) {
 		uniqueObj[uniqueStr] = true;
 		LERNgeoJSON.features.push(feature);
