@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 var wgs84 = require('wgs84-util');
 var LERNgeoJSON={};
+var uniqueObj = {};
 LERNgeoJSON.type = "FeatureCollection";
 LERNgeoJSON.features = [];
 console.log("Pulling primary data...");
@@ -95,11 +96,15 @@ function parseOne(e,r,b){
             var feature = UTM;
             feature.geometry = wgs84.UTMtoLL(UTM);
             feature.geometry.coordinates = feature.geometry.coordinates.reverse();
-            LERNgeoJSON.features.push(feature);
-	    process.stdout.write('\n');
-            console.log(LERNgeoJSON.features.length+". "+feature.properties.title)
-	    var jsonStr = "var LERNdata = "+JSON.stringify(LERNgeoJSON);
-	    fs.writeFile('geoLERN.js',jsonStr,function(err){if(err){throw err};});
+	    var uniqueStr = feature.properties.title+feature.geometry.coordinates[0]+feature.geometry.coordinates[0];
+	    if (!uniqueObj[uniqueStr]) {
+		uniqueObj[uniqueStr] = true;
+		LERNgeoJSON.features.push(feature);
+		process.stdout.write('\n');
+		console.log(LERNgeoJSON.features.length+". "+feature.properties.title)
+		var jsonStr = "var LERNdata = "+JSON.stringify(LERNgeoJSON);
+		fs.writeFile('geoLERN.js',jsonStr,function(err){if(err){throw err};});
+	    }else{process.stdout.write('\n');console.log("Tossing duplicate...");};
         };
 };
 

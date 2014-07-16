@@ -3,21 +3,19 @@ AlexM-Util
 
 Alex Miller's utilities and scratch code
 
-#Utilities
+##Utilities
 
-##importLERN.js
+###1. importLERN.js
 A node Javascript web scraper for http://www.lern.ushahidi.com/
 
-###Dependencies
+####Dependencies
 1. Request - https://www.npmjs.org/package/request
 2. Cheerio - https://www.npmjs.org/package/cheerio
 3. WGS84-Util - https://www.npmjs.org/package/wgs84-util
 
-###Use
-To run:
+####Use
+To run, change your working directory to where you wish to save the LERN geoJSON and then:
 
-- Change your working directory to where you wish to save the LERN geoJSON and then
-
-'''
+```
 node importLERN.js
-'''
+```
