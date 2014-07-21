@@ -20,7 +20,7 @@ To run, change your working directory to where you wish to save the LERN geoJSON
 node getLERN.js
 ```
 
-###1. getUSAID.js
+###2. getUSAID.js
 A node Javascript web scraper for http://portfolio.usaid.gov/
 
 ####Dependencies
