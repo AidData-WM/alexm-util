@@ -33,3 +33,17 @@ To run, change your working directory to where you wish to save the USAID JSON a
 ```
 node getUSAID.js
 ```
+
+###3. convertUSAID.js
+A node Javascript CSV converter for the output from getUSAID.js
+
+####Dependencies
+1. To-CSV - https://www.npmjs.org/package/to-csv
+2. String - https://www.npmjs.org/package/string
+
+####Use
+To run, change your working directory to where USAID.js is saved and then:
+
+```
+node convertUSAID.js
+```
