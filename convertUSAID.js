@@ -3,8 +3,6 @@ csv = require('to-csv'),
 S = require('string'),
 USAID = JSON.parse(fs.readFileSync('./USAID.js','utf8')),
 records = [];
-var count = 0
-
 
 for(var id in USAID){
     var startDate = USAID[id]["startDate"],
@@ -29,16 +27,12 @@ for(var id in USAID){
         obj.org = org!=''&&org!=null?org:'none';
         obj.name = name!=''&&name!=null?name:'none';
         obj.endDate = endDate!=''&&endDate!=null?endDate:'none';
-        obj.publicResults = publicResults!=''&&publicResults!=null?S(publicResults).replaceAll(";"," ").s:'none';
+        obj.publicResults = publicResults!=''&&publicResults!=null?S(publicResults).stripPunctuation().s:'none';
         obj.country = country!=''&&country!=null?country:'none';
         obj.obligation = obligation!=''&&obligation!=null?obligation:'none';
-        obj.description = description!=''&&description!=null?S(description).stripTags().replaceAll(";"," ").s:'none';
+        obj.description = description!=''&&description!=null?S(description).stripTags().stripPunctuation().s:'none';
         obj.id = id;
         records.push(obj);
-        count += 1;
-        if (count>=97&&count<=99) {
-            console.log(obj);
-        }
     };
 };
 console.log(records.length)
