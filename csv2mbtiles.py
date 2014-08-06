@@ -31,7 +31,7 @@ def main(argv):
    parser.add_option("-z", "--zoom", dest="zoom",
                      help="Zoom level in single quotes. E.g. '1-3'")
    (options, args) = parser.parse_args()
-   inputname, inputextension = os.path.splitext(inputfile)
+   inputname, inputextension = os.path.splitext(options.inputfile)
    #Prompt user for lat/long columns
    with open(options.inputfile, 'rb') as csvfile:
       reader = csv.reader(csvfile,delimiter=',', quotechar='"')
