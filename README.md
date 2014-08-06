@@ -68,15 +68,28 @@ node scratch_classify.js "Training refugees in sustainable agriculture methodolo
 WIP csv to mbtiles converter
 
 ####Dependencies
-1. GDAL
-2. OGR
-3. OSGEO
-4. gdal2tiles.py (included)
-5. ogr2ogr.py (included)
+1. OSGEO
+2. gdal2tiles.py (included)
+3. ogr2ogr.py (included)
 
 ####Use
 To run, change your working directory to where the csv is saved and then:
 
 ```
 ./csv2mbtiles.py -i input.csv -o output.mbtiles -z '1-3'
+```
+
+###5. csv2mbtiles_bash.py
+WIP csv to mbtiles converter utilizing Albert's bash script
+
+####Dependencies
+1. OSGEO
+2. gdal2tiles.py (included)
+3. ogr2ogr.py (included)
+
+####Use
+To run:
+
+```
+./csv2mbtiles_bash.py -i SCAD.csv -o SCAD.mbtiles -m '1-3' -c '0 0 255' -d '255 0 0' -r 1498 -l 1436 -x 'longitude' -y 'latitude' -z 'npart'
 ```
