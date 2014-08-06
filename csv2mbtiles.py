@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 #Import system
-import sys, getopt, os
+import sys, os
+from optparse import OptionParser
 
 #Import CSV reader
 import csv
@@ -21,28 +22,18 @@ from gdal2tiles import GDAL2Tiles
 import ogr2ogr
 
 def main(argv):
-    #Get input and output from command line args
-   inputfile = ''
-   outputfile = ''
-   zoom = ''
-   try:
-      opts, args = getopt.getopt(argv,"hi:o:z:",["ifile=","ofile=", "zlevel="])
-   except getopt.GetoptError:
-      print 'test.py -i <inputfile> -o <outputfile> -z <zoom>'
-      sys.exit(2)
-   for opt, arg in opts:
-      if opt == '-h':
-         print 'test.py -i <inputfile> -o <outputfile> -z <zoom>'
-         sys.exit()
-      elif opt in ("-i", "--ifile"):
-         inputfile = arg
-         inputname, inputextension = os.path.splitext(inputfile)
-      elif opt in ("-o", "--ofile"):
-         outputfile = arg
-      elif opt in ("-z", "--zlevel"):
-         zoom = arg
-    #Prompt user for lat/long columns
-   with open(inputfile, 'rb') as csvfile:
+   #Get input and output from command line args
+   parser = OptionParser()
+   parser.add_option("-i", "--input", dest="inputfile",
+                     help="Input csv file path", metavar="FILE")
+   parser.add_option("-o", "--output", dest="outputfile",
+                     help="Output mbtiles file path", metavar="FILE")
+   parser.add_option("-z", "--zoom", dest="zoom",
+                     help="Zoom level in single quotes. E.g. '1-3'")
+   (options, args) = parser.parse_args()
+   inputname, inputextension = os.path.splitext(inputfile)
+   #Prompt user for lat/long columns
+   with open(options.inputfile, 'rb') as csvfile:
       reader = csv.reader(csvfile,delimiter=',', quotechar='"')
       headers = reader.next()
       for item in enumerate(headers):
@@ -65,7 +56,7 @@ def main(argv):
           print "Try a number in range next time."
    #Write DBF
    os.makedirs("./tmp")
-   ogr2ogr.main(["","-f","ESRI Shapefile","./tmp",inputfile])
+   ogr2ogr.main(["","-f","ESRI Shapefile","./tmp",options.inputfile])
    #Write VRT
    vrt = open('./tmp/'+inputname+'.vrt','w')
    vrt.write("<OGRVRTDataSource>\n")
