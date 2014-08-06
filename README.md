@@ -79,7 +79,7 @@ To run, change your working directory to where the csv is saved and then:
 ./csv2mbtiles.py -i input.csv -o output.mbtiles -z '1-3'
 ```
 
-###5. csv2mbtiles_bash.py
+###6. csv2mbtiles_bash.py
 WIP csv to mbtiles converter utilizing Albert's bash script
 
 ####Dependencies
