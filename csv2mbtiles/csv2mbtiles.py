@@ -32,8 +32,8 @@ def main(argv):
                      help="RGB color for lowest level, Default '255 255 0' for yellow")
    parser.add_option("-d", "--color2", dest="color2", default='255 0 0',
                      help="RGB color for highest level, Default is '255 0 0' for red")
-   parser.add_option("-s", "--steps", dest="steps", default=25,
-                     help="Number of steps in the color relief. Default is 25")
+   parser.add_option("-s", "--steps", dest="steps", default=10,
+                     help="Number of steps in the color relief. Default is 10")
    parser.add_option("-r", "--rows", dest="rows", default=1000,
                      help="Grid rows. Default is 1000")
    parser.add_option("-l", "--cols", dest="cols", default=1000,
