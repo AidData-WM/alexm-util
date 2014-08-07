@@ -65,7 +65,7 @@ node scratch_classify.js "Training refugees in sustainable agriculture methodolo
 ```
 
 ###5. csv2mbtiles.py
-WIP csv to mbtiles converter
+CSV to mbtiles converter utilizing Albert's bash script. Converts point data to grid.
 
 ####Dependencies
 1. OSGEO
@@ -73,23 +73,38 @@ WIP csv to mbtiles converter
 3. ogr2ogr.py (included)
 
 ####Use
-To run, change your working directory to where the csv is saved and then:
+Usage:
 
+Options:
+  -h, --help            show this help message and exit
+  -i FILE, --input=FILE
+                        Input csv file path
+  -a ALG, --alg=ALG     GDAL grid algorithm. Default is
+                        'invdist:power=2.0:smoothing=1.0'
+  -m ZOOM, --zoom=ZOOM  Zoom level in single quotes. Default is '1-3'
+  -c COLOR1, --color1=COLOR1
+                        RGB color for lowest level, Default '255 255 0' for
+                        yellow
+  -d COLOR2, --color2=COLOR2
+                        RGB color for highest level, Default is '255 0 0' for
+                        red
+  -s STEPS, --steps=STEPS
+                        Number of steps in the color relief. Default is 25
+  -r ROWS, --rows=ROWS  Grid rows. Default is 1000
+  -l COLS, --cols=COLS  Grid columns. Default is 1000
+  -x LONGITUDE, --longitude=LONGITUDE
+                        CSV longitude header. Default is 'longitude'
+  -y LATITUDE, --latitude=LATITUDE
+                        CSV latitude header. Default is 'latitude'
+  -z ZFIELD, --zfield=ZFIELD
+                        CSV z-field header
+
+With all the default options explicitly declared, the command looks like:
 ```
-./csv2mbtiles.py -i input.csv -o output.mbtiles -z '1-3'
+./csv2mbtiles.py -i SCAD.csv -a 'invdist:power=2.0:smoothing=1.0' -m '1-3' -c '255 255 0' -d '255 0 0' -s 25 -r 1000 -l 1000 -x 'longitude' -y 'latitude' -z 'npart'
 ```
 
-###6. csv2mbtiles_bash.py
-WIP csv to mbtiles converter utilizing Albert's bash script
-
-####Dependencies
-1. OSGEO
-2. gdal2tiles.py (included)
-3. ogr2ogr.py (included)
-
-####Use
-To run:
-
+Or with the bare minimum of arguments (only creates sample, CSV must contain columns 'latitude' and 'longitude'):
 ```
-./csv2mbtiles_bash.py -i SCAD.csv -o SCAD.mbtiles -m '1-3' -c '0 0 255' -d '255 0 0' -r 1498 -l 1436 -x 'longitude' -y 'latitude' -z 'npart'
+./csv2mbtiles.py -i SCAD.csv -z 'npart'
 ```
