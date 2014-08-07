@@ -73,31 +73,10 @@ CSV to mbtiles converter utilizing Albert's bash script. Converts point data to 
 3. ogr2ogr.py (included)
 
 ####Use
-Usage:
-
-Options:
-  -h, --help            show this help message and exit
-  -i FILE, --input=FILE
-                        Input csv file path
-  -a ALG, --alg=ALG     GDAL grid algorithm. Default is
-                        'invdist:power=2.0:smoothing=1.0'
-  -m ZOOM, --zoom=ZOOM  Zoom level in single quotes. Default is '1-3'
-  -c COLOR1, --color1=COLOR1
-                        RGB color for lowest level, Default '255 255 0' for
-                        yellow
-  -d COLOR2, --color2=COLOR2
-                        RGB color for highest level, Default is '255 0 0' for
-                        red
-  -s STEPS, --steps=STEPS
-                        Number of steps in the color relief. Default is 25
-  -r ROWS, --rows=ROWS  Grid rows. Default is 1000
-  -l COLS, --cols=COLS  Grid columns. Default is 1000
-  -x LONGITUDE, --longitude=LONGITUDE
-                        CSV longitude header. Default is 'longitude'
-  -y LATITUDE, --latitude=LATITUDE
-                        CSV latitude header. Default is 'latitude'
-  -z ZFIELD, --zfield=ZFIELD
-                        CSV z-field header
+Help:
+```
+./csv2mbtiles.py -h
+```
 
 With all the default options explicitly declared, the command looks like:
 ```
