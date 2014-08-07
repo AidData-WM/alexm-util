@@ -87,7 +87,12 @@ Help:
 
 With all the default options explicitly declared, the command looks like:
 ```
-./csv2mbtiles.py -i SCAD.csv -a 'invdist:power=2.0:smoothing=1.0' -m '1-3' -c '255 255 0' -d '255 0 0' -s 25 -r 1000 -l 1000 -x 'longitude' -y 'latitude' -z 'npart'
+./csv2mbtiles.py -i SCAD.csv -a 'invdist:power=2.0:smoothing=1.0' -m '1-3' -c '255 255 0' -d '255 0 0' -s 25 -r 1000 -l 1000 -x 'longitude' -y 'latitude' -z 'npart' -p '.tmp/convexhull.shp'
+```
+
+Also included is an example CSV and shapefile, to create an mbtile clipped to the continent of Africa, run:
+```
+./csv2mbtiles.py -i SCAD.csv -z 'npart' -p ./afr/africa_boundary.shp
 ```
 
 Or with the bare minimum of arguments (only creates sample, CSV must contain columns 'latitude' and 'longitude'):

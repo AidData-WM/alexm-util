@@ -44,6 +44,8 @@ def main(argv):
                      help="CSV latitude header. Default is 'latitude'")
    parser.add_option("-z", "--zfield", dest="zfield",
                      help="CSV z-field header")
+   parser.add_option("-p", "--clipshape", dest="clipshape", default="./tmp/convexhull.shp",
+                     help="Shapefile to clip tif. Default is generated convex-hull")
    (options, args) = parser.parse_args()
    basename = os.path.basename(options.inputfile)
    inputname, inputextension = os.path.splitext(basename)
@@ -147,7 +149,7 @@ def main(argv):
    
    #Warp for compression and clip to convex hull
    print "Warping raster..."
-   warp = subprocess.Popen(["gdalwarp","-co","compress=deflate", "-co", "tiled=yes", "-r", "lanczos", "-cutline", "./tmp/convexhull.shp", "-dstnodata", "0", "./tmp/"+inputname+"_color.tif", "./tmp/"+inputname+"_final.tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   warp = subprocess.Popen(["gdalwarp","-co","compress=deflate", "-co", "tiled=yes", "-r", "lanczos", "-cutline", options.clipshape, "-dstnodata", "0", "./tmp/"+inputname+"_color.tif", "./tmp/"+inputname+"_final.tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    wOutput = warp.communicate()[0]
    print wOutput
    
