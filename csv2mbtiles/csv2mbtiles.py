@@ -75,7 +75,7 @@ def main(argv):
    
    #Rasterize SHP
    print "Rasterizing..."
-   rasterize = subprocess.Popen(["gdal_grid","-outsize",str(options.rows),str(options.cols),"-a","invdist:power=2.0:smoothing=1.0","-zfield",options.zfield,"./tmp/"+inputname+".shp","-l",inputname,"./tmp/"+inputname+".tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   rasterize = subprocess.Popen(["gdal_grid","-outsize",str(options.rows),str(options.cols),"-a",options.alg,"-zfield",options.zfield,"./tmp/"+inputname+".shp","-l",inputname,"./tmp/"+inputname+".tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    rOutput = rasterize.communicate()[0]
    print rOutput
    
