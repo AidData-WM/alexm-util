@@ -14,7 +14,8 @@ from osgeo import gdal_array
 from osgeo import gdalconst
 
 #Import GDAL2Tiles
-from gdal2tiles import GDAL2Tiles
+import gdal2tiles
+from gdal2tiles import Configuration
 
 #Import OGR2OGR
 import ogr2ogr
@@ -58,7 +59,7 @@ def main(argv):
    os.makedirs("./tmp")
    ogr2ogr.main(["","-f","ESRI Shapefile","./tmp",options.inputfile])
    #Write VRT
-   print "Writing VRT..."
+   print "Writing CSV VRT..."
    vrt = open('./tmp/'+inputname+'.vrt','w')
    vrt.write("<OGRVRTDataSource>\n")
    vrt.write("\t<OGRVRTLayer name='"+inputname+"'>\n")
@@ -153,16 +154,26 @@ def main(argv):
    wOutput = warp.communicate()[0]
    print wOutput
    
+   #Draw VRT for parallel gdal2tiles
+   print "Building tile VRT..."
+   buildVrt = subprocess.Popen(["gdalbuildvrt","./tmp/tiles.vrt", "./tmp/"+inputname+"_final.tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   vOutput = buildVrt.communicate()[0]
+   print vOutput
+   
    #Draw png tiles
    print "Drawing tiles..."
-   argv = gdal.GeneralCmdLineProcessor( ['./gdal2tiles.py','-z',options.zoom,'./tmp/'+inputname+'_final.tif','./tmp/'+inputname] )
+   #tiles = subprocess.Popen(['./gdal2tiles.py','-z',options.zoom,'./tmp/tiles.vrt','./tmp/tiles'], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   #tOutput = tiles.communicate()[0]
+   #print tOutput
+   argv = gdal.GeneralCmdLineProcessor( ['./gdal2tiles.py','-z',options.zoom,'./tmp/tiles.vrt','./tmp/tiles'] )
    if argv:
-       gdal2tiles = GDAL2Tiles( argv[1:] )
-       gdal2tiles.process()
+      c1 = Configuration(argv[1:])
+      tile=c1.create_tile()
+      gdal2tiles.process(c1,tile)
        
    #Create MBtiles
    print "Generating MBtiles file..."
-   mbtiles = subprocess.Popen(["mb-util","./tmp/"+inputname,inputname+".mbtiles","--scheme","tms"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   mbtiles = subprocess.Popen(["mb-util","./tmp/image","./tmp/"+inputname+".mbtiles","--scheme","tms"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    mOutput = mbtiles.communicate()[0]
    print mOutput
    print "Done."

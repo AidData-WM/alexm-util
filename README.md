@@ -70,12 +70,13 @@ CSV to mbtiles converter utilizing Albert's bash script. Converts point data to 
 ####Dependencies
 1. Python
 2. OSGEO
-3. gdal2tiles.py (included)
+3. multi-core gdal2tiles.py (included)
 4. ogr2ogr.py (included)
 5. gdal_grid installed and accessable in bash by the command 'gdal_grid'
 6. gdaldem installed and accessable in bash by the command 'gdaldem'
 7. gdalwarp installed and accessable in bash by the command 'gdalwarp'
-8. mb-util installed and accessable in bash by the command 'mb-util'
+8. gdalbuildvrt installed and accessable in bash by the command 'gdalbuildvrt'
+9. mb-util installed and accessable in bash by the command 'mb-util'
 
 ####Use
 First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script.
