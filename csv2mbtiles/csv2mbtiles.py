@@ -173,7 +173,7 @@ def main(argv):
        
    #Create MBtiles
    print "Generating MBtiles file..."
-   mbtiles = subprocess.Popen(["mb-util","./tmp/image","./tmp/"+inputname+".mbtiles","--scheme","tms"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   mbtiles = subprocess.Popen(["mb-util","./tmp/tiles","./tmp/"+inputname+".mbtiles","--scheme","tms"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    mOutput = mbtiles.communicate()[0]
    print mOutput
    print "Done."
