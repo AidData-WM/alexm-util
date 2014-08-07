@@ -78,6 +78,8 @@ CSV to mbtiles converter utilizing Albert's bash script. Converts point data to 
 8. mb-util installed and accessable in bash by the command 'mb-util'
 
 ####Use
+First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script.
+
 Help:
 ```
 ./csv2mbtiles.py -h
