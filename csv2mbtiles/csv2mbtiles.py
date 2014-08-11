@@ -33,8 +33,10 @@ def main(argv):
                      help="RGB color for lowest level, Default '255 255 0' for yellow")
    parser.add_option("-d", "--color2", dest="color2", default='255 0 0',
                      help="RGB color for highest level, Default is '255 0 0' for red")
+   parser.add_option("-n", "--nearest", dest="nearest", default=False,
+                     help="If true, raster values will be assigned to nearest step, rather than continuous. Default is continuous. To be used in conjunction with -s")
    parser.add_option("-s", "--steps", dest="steps", default=10,
-                     help="Number of steps in the color relief. Default is 10")
+                     help="Number of steps in the color relief if specified and -n is 'True'. Default is 10")
    parser.add_option("-r", "--rows", dest="rows", default=1000,
                      help="Grid rows. Default is 1000")
    parser.add_option("-l", "--cols", dest="cols", default=1000,
@@ -76,7 +78,7 @@ def main(argv):
    
    #Rasterize SHP
    print "Rasterizing..."
-   rasterize = subprocess.Popen(["gdal_grid","-outsize",str(options.rows),str(options.cols),"-a",options.alg,"-zfield",options.zfield,"./tmp/"+inputname+".shp","-l",inputname,"./tmp/"+inputname+".tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   rasterize = subprocess.Popen(["gdal_grid","-outsize",str(options.rows),str(options.cols),"-a",options.alg,"-zfield",options.zfield,"./tmp/"+inputname+".shp","-l",inputname,"./tmp/"+inputname+".tif","--config", "GDAL_NUM_THREADS", "ALL_CPUS"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    rOutput = rasterize.communicate()[0]
    print rOutput
    
@@ -129,9 +131,11 @@ def main(argv):
    #src_ds = gdal.Open("./tmp/"+inputname+".tif")
    #srcband = src_ds.GetRasterBand(1)
    #(tifMin, tifMax) = srcband.ComputeRasterMinMax()
+   #(tifMean, tifStd) = srcband.ComputeBandStats()
    steps = int(options.steps)
    colorTxt = open("./tmp/"+"color.txt","w")
-   colorTxt.write("0 255 255 255 0\n")
+   #colorTxt.write(str(tifMin)+" "+options.color1+"\n")
+   #percentStep = (tifMax-tifMin)/steps
    colorTxt.write("0% "+options.color1+"\n")
    percentStep = 100/steps
    for step in range(1,steps):
@@ -139,12 +143,16 @@ def main(argv):
       percentG = str(((int(options.color1.split()[1])*(steps-step))+(int(options.color2.split()[1])*step))/steps)
       percentB = str(((int(options.color1.split()[2])*(steps-step))+(int(options.color2.split()[2])*step))/steps)
       colorTxt.write(str(percentStep*step)+"% "+percentR+" "+percentG+" "+percentB+" "+"\n")
+   #colorTxt.write(str(tifMax)+" "+options.color2)
    colorTxt.write("100% "+options.color2)
    colorTxt.close()
    
    #Color the raster
    print "Colorizing raster..."
-   colorize = subprocess.Popen(["gdaldem", "color-relief","./tmp/"+inputname+".tif", "./tmp/color.txt", "./tmp/"+inputname+"_color.tif", "-nearest_color_entry"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   if options.nearest:
+      colorize = subprocess.Popen(["gdaldem", "color-relief","./tmp/"+inputname+".tif", "./tmp/color.txt", "./tmp/"+inputname+"_color.tif","-nearest_color_entry"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   else:
+      colorize = subprocess.Popen(["gdaldem", "color-relief","./tmp/"+inputname+".tif", "./tmp/color.txt", "./tmp/"+inputname+"_color.tif"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    cOutput = colorize.communicate()[0]
    print cOutput
    
