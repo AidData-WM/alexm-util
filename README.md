@@ -102,7 +102,7 @@ Or with the bare minimum of arguments (only creates sample, CSV must contain col
 ```
 
 ###6. attributes2density.py
-A density field calculator that takes a CSV (and optionally a shapefile), and returns a SHP.
+A density field calculator that takes a CSV (and optionally a shapefile), and returns a SHP (named clip.shp) that contains density field information.
 
 ####Dependencies
 1. Python
@@ -128,7 +128,7 @@ To create a density map based on an ADM2 shapefile and raw point counts (with la
 ```
 
 ###7. attributes2density_multi.py
-A distributed density field calculator that takes a CSV (and optionally a shapefile), and returns a SHP.
+A distributed density field calculator that takes a CSV (and optionally a shapefile), and returns a SHP (named clip.shp) that contains density field information.
 
 ####Dependencies
 1. Python
