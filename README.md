@@ -100,3 +100,19 @@ Or with the bare minimum of arguments (only creates sample, CSV must contain col
 ```
 ./csv2mbtiles.py -i SCAD.csv -z 'npart'
 ```
+
+###6. density2.py
+Takes a CSV with lats and longs and a shapefile, and returns a shapefile clipped to the CSV's convex hull with an added density field.
+
+####Dependencies
+1. Python
+2. OSGEO
+3. ogr2ogr.py (included)
+
+####Use
+First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script.
+
+Help:
+```
+./density2.py -h
+```
