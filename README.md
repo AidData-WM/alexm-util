@@ -126,3 +126,29 @@ To create a density map based on an ADM2 shapefile and raw point counts (with la
 ```
 ./attributes2density.py -i SCAD.csv -p ADM2.shp
 ```
+
+###7. attributes2density_multi.py
+A distributed density field calculator that takes a CSV (and optionally a shapefile), and returns a SHP.
+
+####Dependencies
+1. Python
+2. OSGEO
+3. ogr2ogr.py (included)
+
+####Use
+First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script.
+
+Help:
+```
+./attributes2density_multi.py -h
+```
+
+To use all CPUs to create a density grid based on aggregating the field 'npart' (with latitude and longitude fields named 'latitude' and 'longitude'):
+```
+./attributes2density_multi.py -i SCAD.csv -z npart
+```
+
+To use one CPU create a density map based on an ADM2 shapefile and raw point counts (with latitude and longitude fields named 'latitude' and 'longitude'):
+```
+./attributes2density_multi.py -i SCAD.csv -p ADM2.shp -c 1
+```
