@@ -101,8 +101,8 @@ Or with the bare minimum of arguments (only creates sample, CSV must contain col
 ./csv2mbtiles.py -i SCAD.csv -z 'npart'
 ```
 
-###6. density2.py
-Takes a CSV with lats and longs and a shapefile, and returns a shapefile clipped to the CSV's convex hull with an added density field.
+###6. attributes2density.py
+A density field calculator that takes a CSV (and optionally a shapefile), and returns a SHP.
 
 ####Dependencies
 1. Python
@@ -114,5 +114,15 @@ First, make sure that there is nothing in ./tmp that you want to save; the scrip
 
 Help:
 ```
-./density2.py -h
+./attributes2density.py -h
+```
+
+To create a density grid based on aggregating the field 'npart' (with latitude and longitude fields named 'latitude' and 'longitude'):
+```
+./attributes2density.py -i SCAD.csv -z npart
+```
+
+To create a density map based on an ADM2 shapefile and raw point counts (with latitude and longitude fields named 'latitude' and 'longitude'):
+```
+./attributes2density.py -i SCAD.csv -p ADM2.shp
 ```
