@@ -136,7 +136,7 @@ A distributed density field calculator that takes a CSV (and optionally a shapef
 3. ogr2ogr.py (included)
 
 ####Use
-First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script.
+First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script. Third, don't try and keyboard interrupt the script... This makes the computer mad. If you need to kill it, I recommend first opening it in a Screen session and then using CTRL+a and k to kill the whole window.
 
 Help:
 ```
