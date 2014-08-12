@@ -201,9 +201,8 @@ def main(argv):
         count = pointLayer.GetFeatureCount()
         density = count/area
         print density
-        pointLayer.ResetReading()
         sumattr=0
-        if options.zfield:
+        if options.zfield and count>0:
             for point in pointLayer:
                 attr = point.GetField(options.zfield)
                 try:
