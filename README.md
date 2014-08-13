@@ -88,7 +88,7 @@ Help:
 
 With all the default options explicitly declared, the command looks like:
 ```
-./csv2mbtiles.py -i SCAD.csv -a 'invdist:power=2.0:smoothing=1.0' -m '1-3' -c '255 255 0' -d '255 0 0' -s 10 -r 1000 -l 1000 -x 'longitude' -y 'latitude' -z 'npart' -p '.tmp/convexhull.shp'
+./csv2mbtiles.py -i SCAD.csv -a 'invdist:power=2.0:smoothing=1.0' -m '1-3' -c '255 255 0' -d '255 0 0' -s 10 -r 1000 -l 1000 -x 'longitude' -y 'latitude' -z 'npart' -p './tmp/convexhull.shp' -o './tmp/mbtiles.mbtiles'
 ```
 
 Also included is an example CSV and shapefile, to create an mbtile clipped to the continent of Africa, run:
@@ -151,4 +151,31 @@ To use all CPUs to create a density grid based on aggregating the field 'npart' 
 To use one CPU create a density map based on an ADM2 shapefile and raw point counts (with latitude and longitude fields named 'latitude' and 'longitude'):
 ```
 ./attributes2density_multi.py -i SCAD.csv -p ADM2.shp -c 1
+```
+
+###8. shp2mbtiles.py
+Converts a polygon shapefile to an MBtiles file.
+
+####Dependencies
+1. Python
+2. OSGEO
+3. multi-core gdal2tiles.py (included)
+4. ogr2ogr.py (included)
+5. gdal_rasterize installed and accessable in bash by the command 'gdal_rasterize'
+6. gdaldem installed and accessable in bash by the command 'gdaldem'
+7. gdalwarp installed and accessable in bash by the command 'gdalwarp'
+8. gdalbuildvrt installed and accessable in bash by the command 'gdalbuildvrt'
+9. mb-util installed and accessable in bash by the command 'mb-util'
+
+####Use
+First, make sure that there is nothing in ./tmp that you want to save; the script uses this path and will overwrite whatever you have saved there. Second, ensure that you have write permissions for the folder from which you're running the script. Third, grab a drink before running this script at a resolution higher than 0.001 or so... It's woefully slow.
+
+Help:
+```
+./shp2mbtiles.py -h
+```
+
+With all the default options explicitly declared, the command looks like:
+```
+./shp2mbtiles.py -i SCAD.shp -m '1-3' -c '255 255 0' -d '255 0 0' -r 0.1 -l 0.1 -z npart -o ./tmp/output.mbtiles
 ```

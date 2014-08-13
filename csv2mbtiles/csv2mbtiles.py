@@ -25,6 +25,8 @@ def main(argv):
    parser = OptionParser()
    parser.add_option("-i", "--input", dest="inputfile",
                      help="Input csv file path", metavar="FILE")
+   parser.add_option("-o", "--output", dest="outfile", default="./tmp/mbtiles.mbtiles",
+                     help="Output MBtiles file path. Default is ./tmp/mbtiles.mbtiles", metavar="FILE")
    parser.add_option("-a", "--alg", dest="alg", default="invdist:power=2.0:smoothing=1.0",
                      help="GDAL grid algorithm. Default is 'invdist:power=2.0:smoothing=1.0'")
    parser.add_option("-m", "--zoom", dest="zoom", default="1-3",
@@ -127,23 +129,15 @@ def main(argv):
    
    #Write color relief txt
    print "Writing color relief txt..."
-   #Find min and max
-   #src_ds = gdal.Open("./tmp/"+inputname+".tif")
-   #srcband = src_ds.GetRasterBand(1)
-   #(tifMin, tifMax) = srcband.ComputeRasterMinMax()
-   #(tifMean, tifStd) = srcband.ComputeBandStats()
    steps = int(options.steps)
    colorTxt = open("./tmp/"+"color.txt","w")
-   #colorTxt.write(str(tifMin)+" "+options.color1+"\n")
-   #percentStep = (tifMax-tifMin)/steps
    colorTxt.write("0% "+options.color1+"\n")
-   percentStep = 100/steps
+   percentStep = 100/float(steps)
    for step in range(1,steps):
       percentR = str(((int(options.color1.split()[0])*(steps-step))+(int(options.color2.split()[0])*step))/steps)
       percentG = str(((int(options.color1.split()[1])*(steps-step))+(int(options.color2.split()[1])*step))/steps)
       percentB = str(((int(options.color1.split()[2])*(steps-step))+(int(options.color2.split()[2])*step))/steps)
       colorTxt.write(str(percentStep*step)+"% "+percentR+" "+percentG+" "+percentB+" "+"\n")
-   #colorTxt.write(str(tifMax)+" "+options.color2)
    colorTxt.write("100% "+options.color2)
    colorTxt.close()
    
@@ -170,9 +164,6 @@ def main(argv):
    
    #Draw png tiles
    print "Drawing tiles..."
-   #tiles = subprocess.Popen(['./gdal2tiles.py','-z',options.zoom,'./tmp/tiles.vrt','./tmp/tiles'], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-   #tOutput = tiles.communicate()[0]
-   #print tOutput
    argv = gdal.GeneralCmdLineProcessor( ['./gdal2tiles.py','-z',options.zoom,'./tmp/tiles.vrt','./tmp/tiles'] )
    if argv:
       c1 = Configuration(argv[1:])
@@ -181,7 +172,7 @@ def main(argv):
        
    #Create MBtiles
    print "Generating MBtiles file..."
-   mbtiles = subprocess.Popen(["mb-util","./tmp/tiles","./tmp/"+inputname+".mbtiles","--scheme","tms"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   mbtiles = subprocess.Popen(["mb-util","./tmp/tiles",options.outfile,"--scheme","tms"], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    mOutput = mbtiles.communicate()[0]
    print mOutput
    print "Done."
